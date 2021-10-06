@@ -1,0 +1,42 @@
+syntax = "proto3";
+
+option csharp_namespace = "gRPC";
+
+package sakila;
+
+// Service Definition
+service SakilaService {
+  rpc ListActors (ListActorsRequest) returns (stream ListActorsResponse);
+  rpc GetActor (GetActorRequest) returns (GetActorResponse);
+}
+
+message ListActorsRequest {}
+
+message ListActorsResponse {
+  Status status = 1;
+  oneof Response {
+    string errorMessage = 2;
+    Actor actor = 3;
+  }
+}
+
+message GetActorRequest {
+  int32 id = 1;
+}
+
+message GetActorResponse {
+  Status status = 1;
+  Actor actor = 2;
+}
+
+message Actor {
+  int32 id = 1;
+  string firstName = 2;
+  string lastName = 3;
+  // TODO: DateTime type
+}
+
+enum Status {
+  Success = 0;
+  Error = 1;
+}
